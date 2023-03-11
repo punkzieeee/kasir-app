@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Barang;
+use App\Models\Customer;
 use Exception;
 use Illuminate\Http\Request;
 
-class BarangController extends Controller
+class CustomerController extends Controller
 {
-    function listBarang()
+    function listCustomer()
     {
         try {
-            $data = Barang::all();
+            $data = Customer::all();
             return response()->json($data);
         } catch (Exception $e) {
             return response()->json([
@@ -21,17 +21,19 @@ class BarangController extends Controller
         }
     }
 
-    function insertBarang(Request $request)
+    function insertCustomer(Request $request)
     {
         try {
             $request->validate([
-                'nama_barang'=>'required',
-                'harga'=>'required'
+                'nama' => 'required',
+                'alamat' => 'required',
+                'no_telp' => 'required'
             ]);
             
-            $data = new Barang();
-            $data -> nama_barang = $request -> nama_barang;
-            $data -> harga = $request -> harga;
+            $data = new Customer();
+            $data -> nama = $request -> nama;
+            $data -> alamat = $request -> alamat;
+            $data -> no_telp = $request -> no_telp;
             $data -> save();
 
             return response()->json([
@@ -47,10 +49,10 @@ class BarangController extends Controller
         
     }
 
-    function deleteBarang($id)
+    function deleteCustomer($id)
     {
         try {
-            $data = Barang::find($id);
+            $data = Customer::find($id);
             $data -> delete();
 
             return response()->json([
@@ -64,17 +66,19 @@ class BarangController extends Controller
         }
     }
 
-    function updateBarang($id, Request $request)
+    function updateCustomer($id, Request $request)
     {
         try {
             $request->validate([
-                'nama_barang'=>'required',
-                'harga'=>'required'
+                'nama' => 'required',
+                'alamat' => 'required',
+                'no_telp' => 'required'
             ]);
             
-            $data = Barang::find($id);
-            $data -> nama_barang = $request -> nama_barang;
-            $data -> harga = $request -> harga;
+            $data = Customer::find($id);
+            $data -> nama = $request -> nama;
+            $data -> alamat = $request -> alamat;
+            $data -> no_telp = $request -> no_telp;
             $data -> save();
     
             return response()->json([

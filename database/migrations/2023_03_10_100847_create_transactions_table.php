@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('kasirs', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_barang');
+            $table->integer('id_admin')->refrences('id')->on('admins');
+            $table->integer('id_pelanggan')->refrences('id')->on('customers');
+            $table->integer('id_produk')->refrences('id')->on('products');
             $table->integer('quantity');
             $table->integer('total_harga');
             $table->timestamps();
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kasirs');
+        Schema::dropIfExists('transactions');
     }
 };

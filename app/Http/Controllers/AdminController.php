@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kasir;
+use App\Models\Admin;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class KasirController extends Controller
+class AdminController extends Controller
 {
-    function listKasir()
+    function listAdmin()
     {
         try {
-            $query = "select a.id, b.id as id_barang, b.nama_barang, b.harga as harga_satuan, a.quantity, a.total_harga from kasirs a, barangs b where a.id_barang = b.id";
-            $data = DB::connection('mysql')->select($query);
+            $data = Admin::all();
             return response()->json($data);
         } catch (Exception $e) {
             return response()->json([
@@ -21,25 +19,23 @@ class KasirController extends Controller
                 'msg' => $e->getMessage(),
             ]);
         }
-        
     }
 
-    function insertKasir(Request $request)
+    function insertAdmin(Request $request)
     {
         try {
             $request->validate([
-                'id_barang'=>'required',
-                'quantity'=>'required|min_digits:1'
+                'nama' => 'required',
+                'alamat' => 'required',
+                'no_telp' => 'required'
             ]);
             
-            $harga = DB::connection('mysql')->select("select* from barangs where id = {$request -> id_barang}");
-            
-            $data = new Kasir();
-            $data -> id_barang = $request -> id_barang;
-            $data -> quantity = $request -> quantity;
-            $data -> total_harga = $harga[0]->harga * $request -> quantity;
+            $data = new Admin();
+            $data -> nama = $request -> nama;
+            $data -> alamat = $request -> alamat;
+            $data -> no_telp = $request -> no_telp;
             $data -> save();
-    
+
             return response()->json([
                 'message' => 'data berhasil dimasukkan',
                 'data' => $data
@@ -50,12 +46,13 @@ class KasirController extends Controller
                 'msg' => $e->getMessage(),
             ]);
         }
+        
     }
 
-    function deleteKasir($id)
+    function deleteAdmin($id)
     {
         try {
-            $data = Kasir::find($id);
+            $data = Admin::find($id);
             $data -> delete();
 
             return response()->json([
@@ -67,25 +64,23 @@ class KasirController extends Controller
                 'msg' => $e->getMessage(),
             ]);
         }
-        
     }
 
-    function updateKasir($id, Request $request)
+    function updateAdmin($id, Request $request)
     {
         try {
             $request->validate([
-                'id_barang'=>'required',
-                'quantity'=>'required|min_digits:1'
+                'nama' => 'required',
+                'alamat' => 'required',
+                'no_telp' => 'required'
             ]);
             
-            $harga = DB::connection('mysql')->select("select* from barangs where id = {$request -> id_barang}");
-            
-            $data = Kasir::find($id);
-            $data -> id_barang = $request -> id_barang;
-            $data -> quantity = $request -> quantity;
-            $data -> total_harga = $harga[0]->harga * $request -> quantity;
+            $data = Admin::find($id);
+            $data -> nama = $request -> nama;
+            $data -> alamat = $request -> alamat;
+            $data -> no_telp = $request -> no_telp;
             $data -> save();
-
+    
             return response()->json([
                 'message' => 'data berhasil terupdate',
                 'data' => $data

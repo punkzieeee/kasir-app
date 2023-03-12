@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sale;
 use App\Models\Transaction;
 use Exception;
 use Illuminate\Http\Request;
@@ -30,23 +31,31 @@ class TransactionController extends Controller
             $request->validate([
                 'id_admin'=>'required',
                 'id_pelanggan'=>'required',
-                'id_barang'=>'required',
+                'id_produk'=>'required',
                 'quantity'=>'required|min_digits:1'
             ]);
             
-            $harga = DB::connection('mysql')->select("select * from products where id = {$request -> id_barang}");
+            $harga = DB::connection('mysql')->select("select * from products where id = {$request -> id_produk}");
+            $quantity = $request -> quantity;
             
             $data = new Transaction();
             $data -> id_admin = $request -> id_admin;
             $data -> id_pelanggan = $request -> id_pelanggan;
-            $data -> id_barang = $request -> id_barang;
-            $data -> quantity = $request -> quantity;
+            $data -> id_produk = $request -> id_produk;
+            $data -> quantity = $quantity;
             $data -> total_harga = $harga[0]->harga * $request -> quantity;
             $data -> save();
+
+            $data_jual = new Sale();
+            $data_jual -> id_produk = $request -> id_produk;
+            $data_jual -> id_pelanggan = $request -> id_pelanggan;
+            $data_jual -> stok_terjual = $quantity;
+            $data_jual -> save();
     
             return response()->json([
                 'message' => 'data berhasil dimasukkan',
-                'data' => $data
+                'data_transaksi' => $data,
+                'data_penjualan' => $data_jual
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -80,16 +89,16 @@ class TransactionController extends Controller
             $request->validate([
                 'id_admin'=>'required',
                 'id_pelanggan'=>'required',
-                'id_barang'=>'required',
+                'id_produk'=>'required',
                 'quantity'=>'required|min_digits:1'
             ]);
             
-            $harga = DB::connection('mysql')->select("select * from products where id = {$request -> id_barang}");
+            $harga = DB::connection('mysql')->select("select * from products where id = {$request -> id_produk}");
             
             $data = Transaction::find($id);
             $data -> id_admin = $request -> id_admin;
             $data -> id_pelanggan = $request -> id_pelanggan;
-            $data -> id_barang = $request -> id_barang;
+            $data -> id_produk = $request -> id_produk;
             $data -> quantity = $request -> quantity;
             $data -> total_harga = $harga[0]->harga * $request -> quantity;
             $data -> save();

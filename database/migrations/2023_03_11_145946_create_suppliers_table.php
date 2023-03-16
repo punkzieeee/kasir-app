@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("nama_supplier");
             $table->string("alamat");
             $table->string("no_telp");
+            $table->integer('id_admin')->refrences('id')->on('admins');
             $table->timestamps();
         });
     }

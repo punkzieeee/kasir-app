@@ -32,6 +32,54 @@
 					"response": []
 				},
 				{
+					"name": "list-transaksi/pembelian",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/list-transaksi/pembelian",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"list-transaksi",
+								"pembelian"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list-transaksi/penjualan",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/list-transaksi/penjualan",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"list-transaksi",
+								"penjualan"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "insert-transaksi",
 					"request": {
 						"method": "POST",
@@ -41,23 +89,29 @@
 							"urlencoded": [
 								{
 									"key": "id_admin",
-									"value": "7",
-									"type": "default"
+									"value": "9",
+									"type": "text"
 								},
 								{
 									"key": "id_pelanggan",
 									"value": "1",
-									"type": "default"
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id_supplier",
+									"value": "2",
+									"type": "text"
 								},
 								{
 									"key": "id_produk",
-									"value": "6",
-									"type": "default"
+									"value": "1",
+									"type": "text"
 								},
 								{
 									"key": "quantity",
-									"value": "3",
-									"type": "default"
+									"value": "2",
+									"type": "text"
 								}
 							]
 						},
@@ -455,15 +509,15 @@
 			]
 		},
 		{
-			"name": "pembelian",
+			"name": "detail",
 			"item": [
 				{
-					"name": "list-pembelian",
+					"name": "list-detail-transaksi",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/list-pembelian",
+							"raw": "http://127.0.0.1:8000/api/list-detail-transaksi",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -474,157 +528,14 @@
 							"port": "8000",
 							"path": [
 								"api",
-								"list-pembelian"
+								"list-detail-transaksi"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "insert-pembelian",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "id_produk",
-									"value": "5",
-									"type": "text"
-								},
-								{
-									"key": "id_supplier",
-									"value": "4",
-									"type": "text"
-								},
-								{
-									"key": "stok_masuk",
-									"value": "3",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/insert-pembelian",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"insert-pembelian"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update-pembelian",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "id_produk",
-									"value": "9",
-									"type": "text"
-								},
-								{
-									"key": "id_supplier",
-									"value": "7",
-									"type": "text"
-								},
-								{
-									"key": "stok_masuk",
-									"value": "10",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/update-pembelian/3",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"update-pembelian",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete-pembelian",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/delete-pembelian/1",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"delete-pembelian",
-								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "penjualan",
-			"item": [
-				{
-					"name": "list-penjualan",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/list-penjualan",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"list-penjualan"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update-penjualan",
+					"name": "update-detail-transaksi",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -637,19 +548,14 @@
 									"type": "text"
 								},
 								{
-									"key": "id_pelanggan",
-									"value": "3",
-									"type": "text"
-								},
-								{
-									"key": "stok_terjual",
+									"key": "quantity",
 									"value": "5",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/update-penjualan/3",
+							"raw": "http://127.0.0.1:8000/api/update-detail-transaksi/3",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -660,7 +566,7 @@
 							"port": "8000",
 							"path": [
 								"api",
-								"update-penjualan",
+								"update-detail-transaksi",
 								"3"
 							]
 						}
@@ -668,7 +574,7 @@
 					"response": []
 				},
 				{
-					"name": "delete-penjualan",
+					"name": "delete-detail-transaksi",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -677,7 +583,7 @@
 							"urlencoded": []
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/delete-penjualan/8",
+							"raw": "http://127.0.0.1:8000/api/delete-detail-transaksi/8",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -688,7 +594,7 @@
 							"port": "8000",
 							"path": [
 								"api",
-								"delete-penjualan",
+								"delete-detail-transaksi",
 								"8"
 							]
 						}

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('nama_produk');
             $table->string('jenis_produk');
             $table->integer('harga');
+            $table->integer('stok');
+            $table->integer('id_admin')->refrences('id')->on('admins');
             $table->timestamps();
         });
     }

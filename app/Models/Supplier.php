@@ -9,5 +9,6 @@ class Supplier extends Model
 {
     use HasFactory;
     protected $table = "suppliers";
-    protected $fillable =['id_produk', 'nama_supplier', 'alamat', 'no_telp'];
+    protected $fillable =['id_produk', 'nama_supplier', 'alamat', 'no_telp', 'id_admin'];
+    protected $hidden = ['id_admin'];
 }

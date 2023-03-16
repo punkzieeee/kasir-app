@@ -15,8 +15,9 @@ class CustomerController extends Controller
             return response()->json($data);
         } catch (Exception $e) {
             return response()->json([
+                'message' => 'tidak dapat mendapatkan daftar pelanggan',
                 'error' => $e,
-                'msg' => $e->getMessage(),
+                // 'msg' => $e->getMessage(),
             ]);
         }
     }
@@ -27,23 +28,25 @@ class CustomerController extends Controller
             $request->validate([
                 'nama' => 'required',
                 'alamat' => 'required',
-                'no_telp' => 'required'
+                'no_telp' => 'required',
+                'id_admin' => 'required|min_digits:1'
             ]);
             
             $data = new Customer();
             $data -> nama = $request -> nama;
             $data -> alamat = $request -> alamat;
             $data -> no_telp = $request -> no_telp;
+            $data -> id_admin = $request -> id_admin;
             $data -> save();
 
             return response()->json([
                 'message' => 'data berhasil dimasukkan',
-                'data' => $data
             ]);
         } catch (Exception $e) {
             return response()->json([
+                'message' => 'tidak dapat memasukkan data pelanggan',
                 'error' => $e,
-                'msg' => $e->getMessage(),
+                // 'msg' => $e->getMessage(),
             ]);
         }
         
@@ -60,8 +63,9 @@ class CustomerController extends Controller
             ]);
         } catch (Exception $e) {
             return response()->json([
+                'message' => 'tidak dapat menghapus data pelanggan',
                 'error' => $e,
-                'msg' => $e->getMessage(),
+                // 'msg' => $e->getMessage(),
             ]);
         }
     }
@@ -72,23 +76,25 @@ class CustomerController extends Controller
             $request->validate([
                 'nama' => 'required',
                 'alamat' => 'required',
-                'no_telp' => 'required'
+                'no_telp' => 'required',
+                'id_admin' => 'required|min_digits:1'
             ]);
             
             $data = Customer::find($id);
             $data -> nama = $request -> nama;
             $data -> alamat = $request -> alamat;
             $data -> no_telp = $request -> no_telp;
+            $data -> id_admin = $request -> id_admin;
             $data -> save();
     
             return response()->json([
                 'message' => 'data berhasil terupdate',
-                'data' => $data
             ]);
         } catch (Exception $e) {
             return response()->json([
+                'message' => 'tidak dapat memperbarui data pelanggan',
                 'error' => $e,
-                'msg' => $e->getMessage(),
+                // 'msg' => $e->getMessage(),
             ]);
         }
     }

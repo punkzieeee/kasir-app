@@ -20,7 +20,8 @@ class SupplierFactory extends Factory
             'id_produk' => fake() -> numberBetween(1, 10),
             'nama_supplier' => fake('id_ID') -> company(),
             'alamat' => fake('id_ID') -> address(),
-            'no_telp' => fake('id_ID') -> phoneNumber()
+            'no_telp' => fake('id_ID') -> phoneNumber(),
+            'id_admin' => fake() -> numberBetween(1, 10)
         ];
     }
 }

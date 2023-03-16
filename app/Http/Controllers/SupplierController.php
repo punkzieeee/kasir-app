@@ -17,8 +17,9 @@ class SupplierController extends Controller
             return response()->json($data);
         } catch (Exception $e) {
             return response()->json([
+                'message' => 'tidak dapat mendapatkan daftar supplier',
                 'error' => $e,
-                'msg' => $e->getMessage(),
+                // 'msg' => $e->getMessage(),
             ]);
         }
     }
@@ -27,10 +28,11 @@ class SupplierController extends Controller
     {
         try {
             $request->validate([
-                'id_produk' => 'required',
+                'id_produk' => 'required|min_digits:1',
                 'nama_supplier' => 'required',
                 'alamat' => 'required',
-                'no_telp' => 'required'
+                'no_telp' => 'required',
+                'id_admin' => 'required|min_digits:1'
             ]);
             
             $data = new Supplier();
@@ -38,16 +40,17 @@ class SupplierController extends Controller
             $data -> nama_supplier = $request -> nama_supplier;
             $data -> alamat = $request -> alamat;
             $data -> no_telp = $request -> no_telp;
+            $data -> id_admin = $request -> id_admin;
             $data -> save();
 
             return response()->json([
                 'message' => 'data berhasil dimasukkan',
-                'data' => $data
             ]);
         } catch (Exception $e) {
             return response()->json([
+                'message' => 'tidak dapat memasukkan data supplier',
                 'error' => $e,
-                'msg' => $e->getMessage(),
+                // 'msg' => $e->getMessage(),
             ]);
         }
         
@@ -64,8 +67,9 @@ class SupplierController extends Controller
             ]);
         } catch (Exception $e) {
             return response()->json([
+                'message' => 'tidak dapat menghapus data supplier',
                 'error' => $e,
-                'msg' => $e->getMessage(),
+                // 'msg' => $e->getMessage(),
             ]);
         }
     }
@@ -74,10 +78,11 @@ class SupplierController extends Controller
     {
         try {
             $request->validate([
-                'id_produk' => 'required',
+                'id_produk' => 'required|min_digits:1',
                 'nama_supplier' => 'required',
                 'alamat' => 'required',
-                'no_telp' => 'required'
+                'no_telp' => 'required',
+                'id_admin' => 'required|min_digits:1'
             ]);
             
             $data = Supplier::find($id);
@@ -85,16 +90,17 @@ class SupplierController extends Controller
             $data -> nama_supplier = $request -> nama_supplier;
             $data -> alamat = $request -> alamat;
             $data -> no_telp = $request -> no_telp;
+            $data -> id_admin = $request -> id_admin;
             $data -> save();
     
             return response()->json([
-                'message' => 'data berhasil terupdate',
-                'data' => $data
+                'message' => 'data berhasil terupdate'
             ]);
         } catch (Exception $e) {
             return response()->json([
+                'message' => 'tidak dapat memperbarui data supplier',
                 'error' => $e,
-                'msg' => $e->getMessage(),
+                // 'msg' => $e->getMessage(),
             ]);
         }
     }

@@ -2,9 +2,8 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DetailController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\PurchaseController;
-use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
@@ -31,6 +30,10 @@ Route::delete('/delete-produk/{id}', [ProductController::class, 'deleteProduct']
 Route::put('/update-produk/{id}', [ProductController::class, 'updateProduct']);
 
 Route::get('/list-transaksi', [TransactionController::class, 'listTransaction']);
+Route::group(['prefix' => 'list-transaksi'], function () {
+    Route::get('/penjualan', [TransactionController::class, 'listSale']);
+    Route::get('/pembelian', [TransactionController::class, 'listPurchase']);
+});
 Route::post('/insert-transaksi', [TransactionController::class, 'insertTransaction']);
 Route::delete('/delete-transaksi/{id}', [TransactionController::class, 'deleteTransaction']);
 Route::put('/update-transaksi/{id}', [TransactionController::class, 'updateTransaction']);
@@ -50,11 +53,6 @@ Route::post('/insert-pelanggan', [CustomerController::class, 'insertCustomer']);
 Route::delete('/delete-pelanggan/{id}', [CustomerController::class, 'deleteCustomer']);
 Route::put('/update-pelanggan/{id}', [CustomerController::class, 'updateCustomer']);
 
-Route::get('/list-pembelian', [PurchaseController::class, 'listPurchase']);
-Route::post('/insert-pembelian', [PurchaseController::class, 'insertPurchase']);
-Route::delete('/delete-pembelian/{id}', [PurchaseController::class, 'deletePurchase']);
-Route::put('/update-pembelian/{id}', [PurchaseController::class, 'updatePurchase']);
-
-Route::get('/list-penjualan', [SaleController::class, 'listSale']);
-Route::delete('/delete-penjualan/{id}', [SaleController::class, 'deleteSale']);
-Route::put('/update-penjualan/{id}', [SaleController::class, 'updateSale']);
+Route::get('/list-detail-transaksi', [DetailController::class, 'listDetail']);
+Route::delete('/delete-detail-transaksi/{id}', [DetailController::class, 'deleteDetail']);
+Route::put('/update-detail-transaksi/{id}', [DetailController::class, 'updateDetail']);

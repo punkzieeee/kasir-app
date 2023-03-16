@@ -15,8 +15,9 @@ class AdminController extends Controller
             return response()->json($data);
         } catch (Exception $e) {
             return response()->json([
+                'message' => 'tidak dapat mendapatkan daftar admin',
                 'error' => $e,
-                'msg' => $e->getMessage(),
+                // 'msg' => $e->getMessage(),
             ]);
         }
     }
@@ -38,12 +39,12 @@ class AdminController extends Controller
 
             return response()->json([
                 'message' => 'data berhasil dimasukkan',
-                'data' => $data
             ]);
         } catch (Exception $e) {
             return response()->json([
+                'message' => 'tidak dapat memasukkan data admin',
                 'error' => $e,
-                'msg' => $e->getMessage(),
+                // 'msg' => $e->getMessage(),
             ]);
         }
         
@@ -60,8 +61,9 @@ class AdminController extends Controller
             ]);
         } catch (Exception $e) {
             return response()->json([
+                'message' => 'tidak dapat menghapus data admin',
                 'error' => $e,
-                'msg' => $e->getMessage(),
+                // 'msg' => $e->getMessage(),
             ]);
         }
     }
@@ -83,12 +85,12 @@ class AdminController extends Controller
     
             return response()->json([
                 'message' => 'data berhasil terupdate',
-                'data' => $data
             ]);
         } catch (Exception $e) {
             return response()->json([
+                'message' => 'tidak dapat memperbarui data admin',
                 'error' => $e,
-                'msg' => $e->getMessage(),
+                // 'msg' => $e->getMessage(),
             ]);
         }
     }

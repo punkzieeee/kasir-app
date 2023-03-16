@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Sale;
+use App\Models\Detail;
+use App\Models\Product;
 use App\Models\Transaction;
 use Exception;
 use Illuminate\Http\Request;
@@ -13,54 +14,107 @@ class TransactionController extends Controller
     function listTransaction()
     {
         try {
-            $query = "select a.id, c.nama as admin_kasir, d.nama as nama_pelanggan, b.id as id_produk, b.nama_produk, b.harga as harga_satuan, a.quantity, a.total_harga from transactions a, products b, admins c, customers d where a.id_produk = b.id and a.id_admin = c.id and a.id_pelanggan = d.id";
+            $data = Transaction::all();
+            return response()->json($data);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'tidak dapat mendapatkan daftar transaksi',
+                'error' => $e,
+                // 'msg' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    function listPurchase()
+    {
+        try {
+            $query = "SELECT a.id, b.nama as admin_kasir, c.nama_supplier, d.id_produk, e.nama_produk, e.harga as harga_satuan, d.quantity, a.total_harga FROM transactions a, admins b, suppliers c, details d, products e WHERE a.id_admin = b.id and a.id_supplier = c.id and a.id = d.id_transaksi and d.id_produk = e.id and a.id_supplier is not null";
             $data = DB::connection('mysql')->select($query);
             return response()->json($data);
         } catch (Exception $e) {
             return response()->json([
+                'message' => 'tidak dapat mendapatkan daftar pembelian',
                 'error' => $e,
-                'msg' => $e->getMessage(),
+                // 'msg' => $e->getMessage(),
             ]);
         }
-        
+    }
+
+    function listSale()
+    {
+        try {
+            $query = "SELECT a.id, b.nama as admin_kasir, c.nama as nama_pelanggan, d.id_produk, e.nama_produk, e.harga as harga_satuan, d.quantity, a.total_harga FROM transactions a, admins b, customers c, details d, products e WHERE a.id_admin = b.id and a.id_pelanggan = c.id and a.id = d.id_transaksi and d.id_produk = e.id and a.id_pelanggan is not null";
+            $data = DB::connection('mysql')->select($query);
+            return response()->json($data);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'tidak dapat mendapatkan daftar penjualan',
+                'error' => $e,
+                // 'msg' => $e->getMessage(),
+            ]);
+        }
     }
 
     function insertTransaction(Request $request)
     {
         try {
             $request->validate([
-                'id_admin'=>'required',
-                'id_pelanggan'=>'required',
-                'id_produk'=>'required',
-                'quantity'=>'required|min_digits:1'
+                'id_admin'=>'required|min_digits:1',
+                'id_pelanggan'=>'min_digits:1|exclude_unless:id_supplier,null',
+                'id_supplier'=>'min_digits:1|exclude_unless:id_pelanggan,null',
+                'quantity' => 'required|min_digits:1'
             ]);
             
-            $harga = DB::connection('mysql')->select("select * from products where id = {$request -> id_produk}");
+            $produk = DB::connection('mysql')->select("select * from products where id = {$request -> id_produk}");
             $quantity = $request -> quantity;
+            $id_pelanggan = $request -> id_pelanggan;
+            $id_supplier = $request -> id_supplier;
+            $tipe_transaksi = 0;
             
             $data = new Transaction();
             $data -> id_admin = $request -> id_admin;
-            $data -> id_pelanggan = $request -> id_pelanggan;
-            $data -> id_produk = $request -> id_produk;
-            $data -> quantity = $quantity;
-            $data -> total_harga = $harga[0]->harga * $request -> quantity;
+            $data -> id_pelanggan = $id_pelanggan;
+            $data -> id_supplier = $id_supplier;
+            $data -> total_harga = $produk[0]->harga * $request -> quantity;
+            if (is_null($id_pelanggan)) { // stok masuk - supplier
+                $tipe_transaksi = 1;
+            } else if (is_null($id_supplier)) { // stok terjual - pelanggan
+                $tipe_transaksi = 2;
+            } else {
+                return response()->json([
+                    'message' => 'id_pelanggan atau id_supplier harus diisi'
+                ]);
+            }
+            $data -> tipe_transaksi = $tipe_transaksi;
             $data -> save();
 
-            $data_jual = new Sale();
-            $data_jual -> id_produk = $request -> id_produk;
-            $data_jual -> id_pelanggan = $request -> id_pelanggan;
-            $data_jual -> stok_terjual = $quantity;
-            $data_jual -> save();
+            $detail = new Detail();
+            $detail -> id_produk = $request -> id_produk;
+            $detail -> quantity = $quantity;
+            $detail -> save();
+
+            $update_stok = Product::find($request -> id_produk);
+            if ($tipe_transaksi === 1) { // stok masuk - supplier
+                $update_stok -> stok = $update_stok->stok + $quantity;
+            } else if ($tipe_transaksi === 2) { // stok terjual - pelanggan
+                $update_stok -> stok = $update_stok->stok - $quantity;
+            } else {
+                return response()->json([
+                    'message' => 'transaction unknown'
+                ]);
+            }
+            $update_stok -> save();
     
             return response()->json([
                 'message' => 'data berhasil dimasukkan',
-                'data_transaksi' => $data,
-                'data_penjualan' => $data_jual
+                // 'data_transaksi' => $data,
+                // 'detail_transaksi' => $detail
             ]);
         } catch (Exception $e) {
             return response()->json([
+                'message' => 'tidak dapat memasukkan data transaksi',
                 'error' => $e,
-                'msg' => $e->getMessage(),
+                // 'msg' => $e->getMessage(),
             ]);
         }
     }
@@ -76,8 +130,9 @@ class TransactionController extends Controller
             ]);
         } catch (Exception $e) {
             return response()->json([
+                'message' => 'tidak dapat menghapus data transaksi',
                 'error' => $e,
-                'msg' => $e->getMessage(),
+                // 'msg' => $e->getMessage(),
             ]);
         }
         
@@ -87,20 +142,31 @@ class TransactionController extends Controller
     {
         try {
             $request->validate([
-                'id_admin'=>'required',
-                'id_pelanggan'=>'required',
-                'id_produk'=>'required',
-                'quantity'=>'required|min_digits:1'
+                'id_admin'=>'required|min_digits:1',
+                'id_pelanggan'=>'min_digits:1|exclude_unless:id_supplier,null',
+                'id_supplier'=>'min_digits:1|exclude_unless:id_pelanggan,null',
             ]);
             
-            $harga = DB::connection('mysql')->select("select * from products where id = {$request -> id_produk}");
+            $produk = DB::connection('mysql')->select("select * from products where id = {$request -> id_produk}");
+            $id_pelanggan = $request -> id_pelanggan;
+            $id_supplier = $request -> id_supplier;
+            $tipe_transaksi = 0;
             
             $data = Transaction::find($id);
             $data -> id_admin = $request -> id_admin;
             $data -> id_pelanggan = $request -> id_pelanggan;
-            $data -> id_produk = $request -> id_produk;
-            $data -> quantity = $request -> quantity;
-            $data -> total_harga = $harga[0]->harga * $request -> quantity;
+            $data -> id_supplier = $request -> id_supplier;
+            $data -> total_harga = $produk[0]->harga * $request -> quantity;
+            if (is_null($id_pelanggan)) { // stok masuk - supplier
+                $tipe_transaksi = 1;
+            } else if (is_null($id_supplier)) { // stok terjual - pelanggan
+                $tipe_transaksi = 2;
+            } else {
+                return response()->json([
+                    'message' => 'id_pelanggan atau id_supplier harus diisi'
+                ]);
+            }
+            $data -> tipe_transaksi = $tipe_transaksi;
             $data -> save();
 
             return response()->json([
@@ -109,8 +175,9 @@ class TransactionController extends Controller
             ]);
         } catch (Exception $e) {
             return response()->json([
+                'message' => 'tidak dapat memperbarui data transaksi',
                 'error' => $e,
-                'msg' => $e->getMessage(),
+                // 'msg' => $e->getMessage(),
             ]);
         }
     }

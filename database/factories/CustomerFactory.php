@@ -19,7 +19,8 @@ class CustomerFactory extends Factory
         return [
             'nama' => fake('id_ID') -> name(),
             'alamat' => fake('id_ID') -> address(),
-            'no_telp' => fake('id_ID') -> phoneNumber()
+            'no_telp' => fake('id_ID') -> phoneNumber(),
+            'id_admin' => fake() -> numberBetween(1, 10)
         ];
     }
 }

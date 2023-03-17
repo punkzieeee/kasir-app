@@ -16,7 +16,7 @@ class LoginController extends Controller
 
             if (Auth::attempt($credentials)) {
                 $token = $request->user()->createToken('auth_token')->plainTextToken;
-                return response()->json($token);
+                return response()->json(['token:' => $token]);
             } else {
                 return response()->json(['error' => 'invalid credentials'], 401);
             }
@@ -33,7 +33,8 @@ class LoginController extends Controller
     function logout(Request $request)
     {
         try {
-            
+            auth()->logout();
+            return response()->json(['message' => 'logout sukses']);
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'logout error',

@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
+use App\Models\User;
 use Exception;
+use Hash;
 use Illuminate\Http\Request;
+use Str;
 
-class AdminController extends Controller
+class UserController extends Controller
 {
     function listAdmin()
     {
         try {
-            $data = Admin::all();
+            $data = User::all();
             return response()->json($data);
         } catch (Exception $e) {
             return response()->json([
@@ -26,15 +28,18 @@ class AdminController extends Controller
     {
         try {
             $request->validate([
-                'nama' => 'required',
-                'alamat' => 'required',
-                'no_telp' => 'required'
+                'name' => 'required',
+                'email' => 'required',
+                'level' => 'required',
+                'password' => 'required|min:8|max:12'
             ]);
             
-            $data = new Admin();
-            $data -> nama = $request -> nama;
-            $data -> alamat = $request -> alamat;
-            $data -> no_telp = $request -> no_telp;
+            $data = new User();
+            $data -> name = $request -> name;
+            $data -> email = $request -> email;
+            $data -> level = $request -> level;
+            $data -> password = Hash::make($request -> password);
+            $data -> remember_token = Str::random(10);
             $data -> save();
 
             return response()->json([
@@ -53,7 +58,7 @@ class AdminController extends Controller
     function deleteAdmin($id)
     {
         try {
-            $data = Admin::find($id);
+            $data = User::find($id);
             $data -> delete();
 
             return response()->json([
@@ -72,15 +77,17 @@ class AdminController extends Controller
     {
         try {
             $request->validate([
-                'nama' => 'required',
-                'alamat' => 'required',
-                'no_telp' => 'required'
+                'name' => 'required',
+                'email' => 'required',
+                'level' => 'required',
+                'password' => 'required|min:8|max:12'
             ]);
             
-            $data = Admin::find($id);
-            $data -> nama = $request -> nama;
-            $data -> alamat = $request -> alamat;
-            $data -> no_telp = $request -> no_telp;
+            $data = User::find($id);
+            $data -> name = $request -> name;
+            $data -> email = $request -> email;
+            $data -> level = $request -> level;
+            $data -> password = Hash::make($request -> password);
             $data -> save();
     
             return response()->json([

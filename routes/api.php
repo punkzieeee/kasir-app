@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,10 +43,10 @@ Route::post('/insert-supplier', [SupplierController::class, 'insertSupplier']);
 Route::delete('/delete-supplier/{id}', [SupplierController::class, 'deleteSupplier']);
 Route::put('/update-supplier/{id}', [SupplierController::class, 'updateSupplier']);
 
-Route::get('/list-admin', [AdminController::class, 'listAdmin']);
-Route::post('/insert-admin', [AdminController::class, 'insertAdmin']);
-Route::delete('/delete-admin/{id}', [AdminController::class, 'deleteAdmin']);
-Route::put('/update-admin/{id}', [AdminController::class, 'updateAdmin']);
+Route::get('/list-admin', [UserController::class, 'listAdmin']);
+Route::post('/insert-admin', [UserController::class, 'insertAdmin']);
+Route::delete('/delete-admin/{id}', [UserController::class, 'deleteAdmin']);
+Route::put('/update-admin/{id}', [UserController::class, 'updateAdmin']);
 
 Route::get('/list-pelanggan', [CustomerController::class, 'listCustomer']);
 Route::post('/insert-pelanggan', [CustomerController::class, 'insertCustomer']);

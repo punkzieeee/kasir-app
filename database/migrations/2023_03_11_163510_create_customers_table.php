@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nama')->unique();
             $table->string('alamat');
             $table->string('no_telp');
+            $table->string('loyalty_level');
             $table->integer('id_admin')->refrences('id')->on('admins');
             $table->timestamps();
         });

@@ -2,7 +2,9 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsCashier;
+use App\Http\Middleware\IsWarehouse;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -64,6 +66,8 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'kasir' => IsCashier::class
+        'kasir' => IsCashier::class,
+        'gudang' => IsWarehouse::class,
+        'admin' => IsAdmin::class
     ];
 }

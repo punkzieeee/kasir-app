@@ -59,52 +59,64 @@ class TransactionController extends Controller
     {
         try {
             $request->validate([
-                'id_admin'=>'required|min_digits:1',
-                'id_pelanggan'=>'min_digits:1|exclude_unless:id_supplier,null',
-                'id_supplier'=>'min_digits:1|exclude_unless:id_pelanggan,null',
+                'id_admin' => 'required|min_digits:1',
+                'id_pelanggan' => 'min_digits:1|exclude_unless:id_supplier,null',
+                'id_supplier' => 'min_digits:1|exclude_unless:id_pelanggan,null',
                 'quantity' => 'required|min_digits:1'
             ]);
-            
-            $produk = DB::connection('mysql')->select("select * from products where id = {$request -> id_produk}");
-            $quantity = $request -> quantity;
-            $id_pelanggan = $request -> id_pelanggan;
-            $id_supplier = $request -> id_supplier;
+
+            $produk = DB::connection('mysql')->select("select * from products where id = {$request->id_produk}")[0]->harga;
+            $quantity = $request->quantity;
+            $id_pelanggan = $request->id_pelanggan;
+            $loyalty = DB::connection('mysql')->select("select * from customers where id = {$id_pelanggan}")[0]->loyalty_level;
+            $id_supplier = $request->id_supplier;
+            $total_harga = 0;
             $tipe_transaksi = 0;
-            
+
             $data = new Transaction();
-            $data -> id_admin = $request -> id_admin;
-            $data -> id_pelanggan = $id_pelanggan;
-            $data -> id_supplier = $id_supplier;
-            $data -> total_harga = $produk[0]->harga * $request -> quantity;
+            $data->id_admin = $request->id_admin;
+            $data->id_pelanggan = $id_pelanggan;
+            $data->id_supplier = $id_supplier;
             if (is_null($id_pelanggan)) { // stok masuk - supplier
+                $total_harga = $produk * $quantity;
                 $tipe_transaksi = 1;
             } else if (is_null($id_supplier)) { // stok terjual - pelanggan
+                if ($loyalty === 'silver') { // diskon 5%
+                    $total_harga = ($produk - ($produk * 0.05)) * $quantity;
+                } elseif ($loyalty === 'gold') { // diskon 15%
+                    $total_harga = ($produk - ($produk * 0.15)) * $quantity;
+                } elseif ($loyalty === 'platinum') { // diskon 25%
+                    $total_harga = ($produk - ($produk * 0.25)) * $quantity;
+                } else {
+                    return response()->json(['message' => 'terjadi kesalahan kalkulasi diskon']);
+                }
+                $data->total_harga = $total_harga;
                 $tipe_transaksi = 2;
             } else {
                 return response()->json([
                     'message' => 'id_pelanggan atau id_supplier harus diisi'
                 ]);
             }
-            $data -> tipe_transaksi = $tipe_transaksi;
-            $data -> save();
+            $data->tipe_transaksi = $tipe_transaksi;
+            $data->save();
 
             $detail = new Detail();
-            $detail -> id_produk = $request -> id_produk;
-            $detail -> quantity = $quantity;
-            $detail -> save();
+            $detail->id_produk = $request->id_produk;
+            $detail->quantity = $quantity;
+            $detail->save();
 
-            $update_stok = Product::find($request -> id_produk);
+            $update_stok = Product::find($request->id_produk);
             if ($tipe_transaksi === 1) { // stok masuk - supplier
-                $update_stok -> stok = $update_stok->stok + $quantity;
+                $update_stok->stok = $update_stok->stok + $quantity;
             } else if ($tipe_transaksi === 2) { // stok terjual - pelanggan
-                $update_stok -> stok = $update_stok->stok - $quantity;
+                $update_stok->stok = $update_stok->stok - $quantity;
             } else {
                 return response()->json([
                     'message' => 'transaction unknown'
                 ]);
             }
-            $update_stok -> save();
-    
+            $update_stok->save();
+
             return response()->json([
                 'message' => 'data berhasil dimasukkan',
                 // 'data_transaksi' => $data,
@@ -123,7 +135,7 @@ class TransactionController extends Controller
     {
         try {
             $data = Transaction::find($id);
-            $data -> delete();
+            $data->delete();
 
             return response()->json([
                 'message' => 'data berhasil terhapus'
@@ -135,43 +147,55 @@ class TransactionController extends Controller
                 // 'msg' => $e->getMessage(),
             ]);
         }
-        
+
     }
 
     function updateTransaction($id, Request $request)
     {
         try {
             $request->validate([
-                'id_admin'=>'required|min_digits:1',
-                'id_pelanggan'=>'min_digits:1|exclude_unless:id_supplier,null',
-                'id_supplier'=>'min_digits:1|exclude_unless:id_pelanggan,null',
+                'id_admin' => 'required|min_digits:1',
+                'id_pelanggan' => 'min_digits:1|exclude_unless:id_supplier,null',
+                'id_supplier' => 'min_digits:1|exclude_unless:id_pelanggan,null',
             ]);
-            
-            $produk = DB::connection('mysql')->select("select * from products where id = {$request -> id_produk}");
-            $id_pelanggan = $request -> id_pelanggan;
-            $id_supplier = $request -> id_supplier;
+
+            $produk = DB::connection('mysql')->select("select * from products where id = {$request->id_produk}")[0]->harga;
+            $id_pelanggan = $request->id_pelanggan;
+            $loyalty = DB::connection('mysql')->select("select * from customers where id = {$id_pelanggan}")[0]->loyalty_level;
+            $id_supplier = $request->id_supplier;
+            $total_harga = 0;
             $tipe_transaksi = 0;
-            
+
             $data = Transaction::find($id);
-            $data -> id_admin = $request -> id_admin;
-            $data -> id_pelanggan = $request -> id_pelanggan;
-            $data -> id_supplier = $request -> id_supplier;
-            $data -> total_harga = $produk[0]->harga * $request -> quantity;
+            $data->id_admin = $request->id_admin;
+            $data->id_pelanggan = $request->id_pelanggan;
+            $data->id_supplier = $request->id_supplier;
             if (is_null($id_pelanggan)) { // stok masuk - supplier
+                $total_harga = $produk * $request->quantity;
                 $tipe_transaksi = 1;
             } else if (is_null($id_supplier)) { // stok terjual - pelanggan
+                if ($loyalty === 'silver') { // diskon 5%
+                    $total_harga = ($produk - ($produk * 0.05)) * $request->quantity;
+                } elseif ($loyalty === 'gold') { // diskon 15%
+                    $total_harga = ($produk - ($produk * 0.15)) * $request->quantity;
+                } elseif ($loyalty === 'platinum') { // diskon 25%
+                    $total_harga = ($produk - ($produk * 0.25)) * $request->quantity;
+                } else {
+                    return response()->json(['message' => 'terjadi kesalahan kalkulasi diskon']);
+                }
+                $data->total_harga = $total_harga;
                 $tipe_transaksi = 2;
             } else {
                 return response()->json([
                     'message' => 'id_pelanggan atau id_supplier harus diisi'
                 ]);
             }
-            $data -> tipe_transaksi = $tipe_transaksi;
-            $data -> save();
+            $data->tipe_transaksi = $tipe_transaksi;
+            $data->save();
 
             return response()->json([
                 'message' => 'data berhasil terupdate',
-                'data' => $data
+                // 'data' => $data
             ]);
         } catch (Exception $e) {
             return response()->json([

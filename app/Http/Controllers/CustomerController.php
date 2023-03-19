@@ -29,6 +29,7 @@ class CustomerController extends Controller
                 'nama' => 'required',
                 'alamat' => 'required',
                 'no_telp' => 'required',
+                'loyalty_level' => 'required',
                 'id_admin' => 'required|min_digits:1'
             ]);
             
@@ -36,6 +37,7 @@ class CustomerController extends Controller
             $data -> nama = $request -> nama;
             $data -> alamat = $request -> alamat;
             $data -> no_telp = $request -> no_telp;
+            $data -> loyalty_level = $request -> loyalty_level;
             $data -> id_admin = $request -> id_admin;
             $data -> save();
 
@@ -77,6 +79,7 @@ class CustomerController extends Controller
                 'nama' => 'required',
                 'alamat' => 'required',
                 'no_telp' => 'required',
+                'loyalty_level' => 'required',
                 'id_admin' => 'required|min_digits:1'
             ]);
             
@@ -84,6 +87,7 @@ class CustomerController extends Controller
             $data -> nama = $request -> nama;
             $data -> alamat = $request -> alamat;
             $data -> no_telp = $request -> no_telp;
+            $data -> loyalty_level = $request -> loyalty_level;
             $data -> id_admin = $request -> id_admin;
             $data -> save();
     

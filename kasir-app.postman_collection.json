@@ -14,7 +14,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/list-transaksi",
+							"raw": "http://127.0.0.1:8000/logged/kasir/list-transaksi",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -24,7 +24,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"kasir",
 								"list-transaksi"
 							]
 						}
@@ -37,7 +38,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/list-transaksi/pembelian",
+							"raw": "http://127.0.0.1:8000/logged/kasir/list-transaksi/pembelian",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -47,7 +48,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"kasir",
 								"list-transaksi",
 								"pembelian"
 							]
@@ -61,7 +63,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/list-transaksi/penjualan",
+							"raw": "http://127.0.0.1:8000/logged/kasir/list-transaksi/penjualan",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -71,7 +73,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"kasir",
 								"list-transaksi",
 								"penjualan"
 							]
@@ -89,34 +92,34 @@
 							"urlencoded": [
 								{
 									"key": "id_admin",
-									"value": "9",
+									"value": "3",
 									"type": "text"
 								},
 								{
 									"key": "id_pelanggan",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "id_supplier",
 									"value": "1",
 									"type": "text",
 									"disabled": true
 								},
 								{
-									"key": "id_supplier",
-									"value": "2",
-									"type": "text"
-								},
-								{
 									"key": "id_produk",
-									"value": "1",
+									"value": "7",
 									"type": "text"
 								},
 								{
 									"key": "quantity",
-									"value": "2",
+									"value": "1",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/insert-transaksi",
+							"raw": "http://127.0.0.1:8000/logged/kasir/insert-transaksi",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -126,7 +129,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"kasir",
 								"insert-transaksi"
 							]
 						}
@@ -143,28 +147,34 @@
 							"urlencoded": [
 								{
 									"key": "id_admin",
-									"value": "4",
+									"value": "3",
 									"type": "text"
 								},
 								{
 									"key": "id_pelanggan",
-									"value": "1",
+									"value": "3",
 									"type": "text"
 								},
 								{
+									"key": "id_supplier",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
 									"key": "id_produk",
-									"value": "9",
+									"value": "3",
 									"type": "text"
 								},
 								{
 									"key": "quantity",
-									"value": "2",
+									"value": "1",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/update-transaksi/1",
+							"raw": "http://127.0.0.1:8000/logged/admin/update-transaksi/5",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -174,9 +184,10 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"admin",
 								"update-transaksi",
-								"1"
+								"5"
 							]
 						}
 					},
@@ -192,7 +203,7 @@
 							"urlencoded": []
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/delete-transaksi/2",
+							"raw": "http://127.0.0.1:8000/logged/admin/delete-transaksi/2",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -202,13 +213,44 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"admin",
 								"delete-transaksi",
 								"2"
 							]
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -221,7 +263,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/list-produk",
+							"raw": "http://127.0.0.1:8000/logged/gudang/list-produk",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -231,7 +273,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"gudang",
 								"list-produk"
 							]
 						}
@@ -264,7 +307,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/insert-produk",
+							"raw": "http://127.0.0.1:8000/logged/gudang/insert-produk",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -274,7 +317,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"gudang",
 								"insert-produk"
 							]
 						}
@@ -307,7 +351,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/update-produk/3",
+							"raw": "http://127.0.0.1:8000/logged/gudang/update-produk/3",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -317,7 +361,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"gudang",
 								"update-produk",
 								"3"
 							]
@@ -335,7 +380,7 @@
 							"urlencoded": []
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/delete-produk/1",
+							"raw": "http://127.0.0.1:8000/logged/gudang/delete-produk/1",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -345,13 +390,37 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"gudang",
 								"delete-produk",
 								"1"
 							]
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -364,7 +433,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/list-supplier",
+							"raw": "http://127.0.0.1:8000/logged/gudang/list-supplier",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -374,7 +443,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"gudang",
 								"list-supplier"
 							]
 						}
@@ -412,7 +482,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/insert-supplier",
+							"raw": "http://127.0.0.1:8000/logged/gudang/insert-supplier",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -422,7 +492,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"gudang",
 								"insert-supplier"
 							]
 						}
@@ -460,7 +531,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/update-supplier/7",
+							"raw": "http://127.0.0.1:8000/logged/gudang/update-supplier/7",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -470,7 +541,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"gudang",
 								"update-supplier",
 								"7"
 							]
@@ -488,7 +560,7 @@
 							"urlencoded": []
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/delete-supplier/4",
+							"raw": "http://127.0.0.1:8000/logged/gudang/delete-supplier/4",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -498,13 +570,37 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"gudang",
 								"delete-supplier",
 								"4"
 							]
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -517,7 +613,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/list-detail-transaksi",
+							"raw": "http://127.0.0.1:8000/logged/kasir/list-detail-transaksi",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -527,7 +623,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"kasir",
 								"list-detail-transaksi"
 							]
 						}
@@ -555,7 +652,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/update-detail-transaksi/3",
+							"raw": "http://127.0.0.1:8000/logged/admin/update-detail-transaksi/3",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -565,7 +662,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"admin",
 								"update-detail-transaksi",
 								"3"
 							]
@@ -583,7 +681,7 @@
 							"urlencoded": []
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/delete-detail-transaksi/8",
+							"raw": "http://127.0.0.1:8000/logged/admin/delete-detail-transaksi/8",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -593,13 +691,44 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"admin",
 								"delete-detail-transaksi",
 								"8"
 							]
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -612,7 +741,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/list-admin",
+							"raw": "http://127.0.0.1:8000/logged/admin/list-admin",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -622,7 +751,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"admin",
 								"list-admin"
 							]
 						}
@@ -638,24 +768,29 @@
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "nama",
-									"value": "Joey",
+									"key": "name",
+									"value": "Purnama",
 									"type": "text"
 								},
 								{
-									"key": "alamat",
-									"value": "Surabaya",
+									"key": "email",
+									"value": "purnama@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "level",
+									"value": "admin",
 									"type": "text"
 								},
 								{
-									"key": "no_telp",
-									"value": "089261739201",
+									"key": "password",
+									"value": "password",
 									"type": "default"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/insert-admin",
+							"raw": "http://127.0.0.1:8000/logged/admin/insert-admin",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -665,7 +800,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"admin",
 								"insert-admin"
 							]
 						}
@@ -698,7 +834,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/update-admin/1",
+							"raw": "http://127.0.0.1:8000/logged/admin/update-admin/1",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -708,7 +844,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"admin",
 								"update-admin",
 								"1"
 							]
@@ -726,7 +863,7 @@
 							"urlencoded": []
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/delete-admin/9",
+							"raw": "http://127.0.0.1:8000/logged/admin/delete-admin/9",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -736,13 +873,37 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"admin",
 								"delete-admin",
 								"9"
 							]
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -755,7 +916,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/list-pelanggan",
+							"raw": "http://127.0.0.1:8000/logged/admin/list-pelanggan",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -765,7 +926,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"admin",
 								"list-pelanggan"
 							]
 						}
@@ -798,7 +960,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/insert-pelanggan",
+							"raw": "http://127.0.0.1:8000/logged/admin/insert-pelanggan",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -808,7 +970,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"admin",
 								"insert-pelanggan"
 							]
 						}
@@ -841,7 +1004,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/update-pelanggan/7",
+							"raw": "http://127.0.0.1:8000/logged/admin/update-pelanggan/7",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -851,7 +1014,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"admin",
 								"update-pelanggan",
 								"7"
 							]
@@ -869,7 +1033,7 @@
 							"urlencoded": []
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/delete-pelanggan/4",
+							"raw": "http://127.0.0.1:8000/logged/admin/delete-pelanggan/4",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -879,9 +1043,115 @@
 							],
 							"port": "8000",
 							"path": [
-								"api",
+								"logged",
+								"admin",
 								"delete-pelanggan",
 								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "login",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "purnama@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "fajar@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/logout",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"logout"
 							]
 						}
 					},
